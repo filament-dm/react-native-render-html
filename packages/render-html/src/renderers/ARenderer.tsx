@@ -2,7 +2,7 @@ import React from 'react';
 import { InternalMixedRenderer } from '../render/render-types';
 import { TNode, DocumentContext } from '@native-html/transient-render-engine';
 import { InternalRendererProps, RenderersProps } from '../shared-types';
-import { GestureResponderEvent } from 'react-native';
+import { GestureResponderEvent, Pressable } from 'react-native';
 import useNormalizedUrl from '../hooks/useNormalizedUrl';
 import { useDocumentMetadata } from '../context/DocumentMetadataProvider';
 import { useRendererProps } from '../context/RenderersPropsProvider';
@@ -47,7 +47,8 @@ export function useAElementProps<T extends TNode>(
 }
 
 const ARenderer: InternalMixedRenderer = (props) => {
-  return React.createElement(props.TDefaultRenderer, useAElementProps(props));
+  const { onPress, ...elementProps } = useAElementProps(props)
+  return <Pressable onPress={onPress}>{React.createElement(props.TDefaultRenderer, elementProps)}</Pressable>;
 };
 
 export default ARenderer;
